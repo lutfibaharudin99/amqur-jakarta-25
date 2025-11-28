@@ -15,7 +15,7 @@
         .card {
             background-color: #1f2937; /* Dark Gray Card Background for contrast */
             box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2); /* Gold shadow for elegance */
-            transition: transformx   0.3s ease;
+            transition: transform 0.3s ease;
         }
         .card:hover {
             transform: translateY(-2px);
@@ -27,6 +27,37 @@
         .probing-title {
             color: #FFD700; /* Gold */
             border-left: 4px solid #FFD700;
+        }
+        .toggle-btn {
+            transition: background-color 0.15s, color 0.15s;
+        }
+        .toggle-btn.active {
+            background-color: #FFD700;
+            color: #121212;
+            font-weight: bold;
+        }
+        /* Styling untuk Tab Skenario di Card 2 */
+        .scenario-tab-btn {
+            padding: 0.75rem 1rem;
+            flex-grow: 1;
+            text-align: center;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.875rem; /* text-sm */
+            background-color: #374151; /* Darker Gray */
+            color: #D1D5DB;
+        }
+        .scenario-tab-btn.active {
+            background-color: #FFD700;
+            color: #121212;
+            font-weight: bold;
+        }
+        .scenario-content {
+            padding: 1rem;
+            margin-top: 0.75rem;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            background-color: #1f2937;
         }
     </style>
 </head>
@@ -43,159 +74,485 @@
         <!-- Container Pertanyaan -->
         <div id="accordion-container" class="space-y-6">
 
+            <script>
+                // Fungsi untuk menampilkan set pertanyaan utama (Experienced vs Non-Experienced)
+                function toggleQuestion(cardId, type) {
+                    const card = document.getElementById(cardId);
+                    const experiencedQ = card.querySelector('.experienced-q');
+                    const nonExperiencedQ = card.querySelector('.non-experienced-q');
+                    const expBtn = card.querySelector('.btn-experienced');
+                    const nonExpBtn = card.querySelector('.btn-non-experienced');
+
+                    if (type === 'experienced') {
+                        experiencedQ.classList.remove('hidden');
+                        nonExperiencedQ.classList.add('hidden');
+                        expBtn.classList.add('active');
+                        nonExpBtn.classList.remove('active');
+                        // Khusus untuk Card 2, aktifkan tab skenario pertama (Media) secara default
+                        if (cardId === 'card-2') {
+                             document.querySelector('#card-2 .scenario-tab-btn[data-role="media"]').click();
+                        }
+                    } else if (type === 'non-experienced') {
+                        experiencedQ.classList.add('hidden');
+                        nonExperiencedQ.classList.remove('hidden');
+                        expBtn.classList.remove('active');
+                        nonExpBtn.classList.add('active');
+                    }
+                }
+
+                // Fungsi untuk menampilkan konten skenario spesifik (HANYA untuk Card 2)
+                function showScenario(role) {
+                    const card = document.getElementById('card-2');
+                    // Hide all content
+                    card.querySelectorAll('.scenario-content').forEach(content => content.classList.add('hidden'));
+                    // Show selected content
+                    document.getElementById(`scenario-${role}`).classList.remove('hidden');
+                    
+                    // Deactivate all buttons
+                    card.querySelectorAll('.scenario-tab-btn').forEach(btn => btn.classList.remove('active'));
+                    // Activate selected button
+                    document.querySelector(`#card-2 .scenario-tab-btn[data-role="${role}"]`).classList.add('active');
+                }
+                
+                // Set default view to 'Experienced' for all cards on load
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelectorAll('.card').forEach(card => {
+                        const cardId = card.id;
+                        // Set default to experienced
+                        toggleQuestion(cardId, 'experienced'); 
+                    });
+                });
+            </script>
+            
             <!-- Card 1: Motivasi & Kecocokan Nilai -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-1">
                 <div class="main-question p-4 font-bold text-lg rounded-t-xl">
                     1. Motivasi & Kecocokan Nilai (Bobot: 5)
                 </div>
+                <!-- CATATAN WAJIB UNTUK PEWAWAANCARA - HANYA DISINI -->
+                <div class="p-2 px-4 bg-gray-800 text-sm text-yellow-300 font-semibold border-b border-gray-700">
+                    CATATAN WAJIB: Tanyakan apakah kamu sudah berpengalaman di event Amazing Quran/Amazing Muharram untuk menentukan kategori pertanyaan.
+                </div>
+                
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-1', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-1', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Menjadi *volunteer* itu seringkali melelahkan. Ceritakan satu titik di mana Anda merasa <strong>paling jenuh, lelah, atau 'capek hati'</strong> saat menjadi panitia di sebuah *event*.
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Apa yang membuat Anda memutuskan untuk <strong>bangkit</strong> dan menyelesaikan komitmen Anda? Apa yang Anda katakan pada diri sendiri saat itu?</li>
-                            <li>Apa yang menjadi alasan terkuat Anda untuk bertahan (Menggali nilai intrinsik/ukhrawi)?</li>
-                            <li>Bagaimana Anda akhirnya menyelesaikan tugas Anda?</li>
-                        </ul>
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">KONFIRMASI NILAI (Non-STAR):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Dari sekian banyak *event* lain, mengapa secara spesifik Anda ingin berkontribusi di <strong>Amazing Quran</strong>? Apa yang Anda cari?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Kamu yang sudah berpengalaman di *event* sebelumnya (seperti Amazing Quran atau Muharram), pasti tahu banget kan kalau *pre-event* dan persiapan bisa sangat menantang, seperti **harus datang di H-1 namun persiapan panitia ternyata belum selesai, informasi kurang lengkap, bahkan *merchandise* peserta masih harus dirapikan beberapa jam sebelum acara**. **Tolong jawab jujur**: **gimana sih perasaan kamu pada saat itu?** **kenapa sih sekarang mau *join* lagi?** Padahal kamu tahu loh Cinta Quran Foundation (atau panitia sebelumnya) memiliki banyak kekurangan di persiapan? **Apa sih motivasi utamamu untuk ikut lagi?**"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa yang menjadi 1-2 motivasi utama yang membuat kamu rela melalui proses panjang ini **meskipun menghadapi tantangan logistik dan kekurangan persiapan sebelumnya**? (Gali nilai intrinsik/ukhrawi)</li>
+                                <li>Bagaimana kamu mengelola emosi dan kekecewaanmu saat melihat kekacauan di H-1? (Gali kedewasaan emosional)</li>
+                            </ul>
+                        </div>
                     </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Hypothetical/Values) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Seperti yang kita tahu, proses persiapan ini lumayan panjang, dan seringkali di tengah jalan ada yang memutuskan untuk mundur karena berbagai alasan. Kalau kamu ikut proses ini, apa sih **alasan terbesar (ultimate goal)** yang ingin kamu dapat dan membuat kamu yakin akan bertahan sampai akhir acara?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAN PROBING (Mindset & Values):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa yang akan menjadi sumber energi atau motivasi kamu saat berada di titik terendah?</li>
+                                <li>Jika kamu sudah berjanji, seberapa besar janji itu memengaruhi komitmen kamu di mata Allah dan manusia?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="probing-title p-2 pl-4 text-sm font-medium mt-4">KONFIRMASI NILAI (Non-STAR):</p>
+                    <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                        <li>Dari sekian banyak *event* lain, mengapa secara spesifik kamu ingin berkontribusi di <strong>Amazing Quran</strong>? Apa yang kamu cari?</li>
+                    </ul>
                 </div>
             </div>
-
+            
             <!-- Card 2: Komunikasi Efektif -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-2">
                 <div class="main-question p-4 font-bold text-lg">
                     2. Komunikasi Efektif (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-2', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-2', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Ceritakan satu situasi di mana Anda harus menyampaikan <strong>informasi penting</strong> kepada rekan, divisi lain, atau peserta, namun Anda tahu <strong>potensi miskomunikasinya tinggi</strong> (misal: karena infonya rumit, orangnya sedang panik, atau ada perbedaan pendapat).
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Media apa yang Anda pilih (WA, rapat, telepon)? Mengapa?</li>
-                            <li>Apa yang Anda lakukan untuk <strong>memastikan mereka *benar-benar* paham</strong> dan bukan sekadar bilang 'iya, paham'? (Menggali *feedback loop*).</li>
-                            <li>Bagaimana Anda mengatasi jika ada yang tampak bingung atau salah menangkap instruksi?</li>
-                            <li>Apa hasilnya? Apa yang terjadi jika Anda tidak melakukan *follow-up* tersebut?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) - ROLE SPECIFIC -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-4">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Saat di *event* sebelumnya, pasti kamu pernah mengalami kesulitan komunikasi yang spesifik. Pilih skenario di bawah yang paling relevan dengan peranmu (atau yang paling menantang), dan ceritakan detail situasinya."
+                        </p>
+                        
+                        <!-- Role Scenarios Tabs -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button class="scenario-tab-btn active" data-role="media" onclick="showScenario('media')">Media/Konten</button>
+                            <button class="scenario-tab-btn" data-role="frontliner" onclick="showScenario('frontliner')">Usher/Registrasi</button>
+                            <button class="scenario-tab-btn" data-role="lo" onclick="showScenario('lo')">LO/VVIP</button>
+                            <button class="scenario-tab-btn" data-role="acara" onclick="showScenario('acara')">Tim Acara</button>
+                            <button class="scenario-tab-btn" data-role="logistik" onclick="showScenario('logistik')">Tim Logistik</button>
+                        </div>
+                        
+                        <!-- Role Scenarios Content -->
+                        <div class="space-y-4">
+                            
+                            <!-- Skenario 1: Media -->
+                            <div class="scenario-content" id="scenario-media">
+                                <p class="font-bold text-[#FFD700] mb-2">SKENARIO: TIM MEDIA/KONTEN</p>
+                                <p class="text-gray-200">"Coba ingat saat kamu harus menyampaikan <strong>hasil liputan mendesak (foto/video) yang harus segera di-*upload*, namun koordinator/tim lain lambat merespons atau meminta revisi yang tidak realistis (misal: minta foto diubah dalam 5 menit)</strong>. Bagaimana kamu mengkomunikasikan *deadline* dan kebutuhanmu secara efektif agar konten tetap tayang tepat waktu dan sesuai standar?"</p>
+                            </div>
+
+                            <!-- Skenario 2: Usher/Registrasi/Lapangan (Frontliner Komunikasi Massa) -->
+                            <div class="scenario-content hidden" id="scenario-frontliner">
+                                <p class="font-bold text-[#FFD700] mb-2">SKENARIO: USHER/REGISTRASI/FRONTLINER</p>
+                                <p class="text-gray-200">"Coba ingat saat kamu harus menyampaikan <strong>perubahan instruksi mendadak (misalnya: peserta wajib pindah barisan, atau sistem *scan* tiket *error*) kepada puluhan orang yang sedang terburu-buru/kecewa</strong>. Bagaimana kamu mengkomunikasikan informasi yang *frictional* ini dengan jelas, tetap tenang, dan memastikan peserta mematuhinya?"</p>
+                            </div>
+
+                            <!-- Skenario 3: Liaison Officer (LO) -->
+                            <div class="scenario-content hidden" id="scenario-lo">
+                                <p class="font-bold text-[#FFD700] mb-2">SKENARIO: LIAISON OFFICER (LO)/PIC VVIP</p>
+                                <p class="text-gray-200">"Coba ingat saat kamu harus menyampaikan <strong>permintaan atau kebutuhan mendadak dari VVIP/Speaker (misalnya: ganti jadwal, minta alat presentasi tambahan) kepada Koordinator Divisi (panitia) yang sedang sibuk dan *stress*</strong>. Bagaimana kamu mengkomunikasikan urgensi tersebut dengan memprioritaskan kepentingan VVIP tanpa membuat panitia merasa tertekan atau disalahkan?"</p>
+                            </div>
+
+                             <!-- Skenario 4: Tim Acara -->
+                            <div class="scenario-content hidden" id="scenario-acara">
+                                <p class="font-bold text-[#FFD700] mb-2">SKENARIO: TIM ACARA</p>
+                                <p class="text-gray-200">"Coba ingat saat terjadi <strong>*delay* 15 menit dari jadwal yang sudah ditetapkan</strong>, dan kamu harus mengkomunikasikannya kepada MC, tim Musik, dan VVIP/Speaker secara bersamaan. Bagaimana kamu mengkomunikasikan perubahan waktu tersebut agar semua pihak bisa menyesuaikan diri dengan tenang dan acara tetap berjalan mulus?"</p>
+                            </div>
+
+                            <!-- Skenario 5: Tim Logistik -->
+                            <div class="scenario-content hidden" id="scenario-logistik">
+                                <p class="font-bold text-[#FFD700] mb-2">SKENARIO: TIM LOGISTIK</p>
+                                <p class="text-gray-200">"Coba ingat saat kamu harus menyampaikan informasi bahwa <strong>barang penting yang diminta Koordinator Divisi (misal: 100 kursi tambahan) tidak tersedia di lokasi dan tidak bisa dipenuhi dalam 30 menit</strong>. Bagaimana kamu mengkomunikasikan 'kabar buruk' ini kepada koordinator tanpa membuatnya panik, sambil menawarkan solusi alternatif yang realistis?"</p>
+                            </div>
+                        </div>
+
+                        <!-- Probing Questions (General for STAR) -->
+                        <div class="space-y-2 mt-6">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa yang kamu lakukan untuk **memastikan lawan bicara *benar-benar* paham** (bukan sekadar bilang 'iya')? (Menggali *feedback loop*).</li>
+                                <li>Bagaimana kamu mengelola emosi atau rasa frustrasi diri sendiri dan lawan bicaramu dalam situasi tersebut?</li>
+                                <li>Apa hasil akhirnya? Apa yang akan terjadi jika kamu tidak menggunakan pendekatan komunikasi spesifik tersebut?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Kamu diminta menyampaikan 3 instruksi penting yang sedikit rumit kepada tim divisi kamu hanya melalui grup chat (WA/Telegram). Langkah-langkah apa yang akan kamu ambil untuk <strong>meminimalkan miskomunikasi dan memastikan semua orang menerima info yang sama</strong>?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Logic):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Format pesan seperti apa yang akan kamu gunakan? (Contoh: poin-poin, bold, tagar).</li>
+                                <li>Bagaimana kamu meminta konfirmasi balasan dari mereka?</li>
+                                <li>Apa yang kamu lakukan jika ada yang merespon dengan jawaban yang salah?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3: Inisiatif Tinggi -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-3">
                 <div class="main-question p-4 font-bold text-lg">
                     3. Inisiatif Tinggi (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-3', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-3', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Ceritakan pengalaman Anda ketika Anda melihat ada sebuah 'celah' atau pekerjaan yang 'terlantar'—yang jika tidak dikerjakan bisa menimbulkan masalah—meskipun itu <strong>bukan *jobdesk* utama Anda</strong> di kepanitiaan.
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Apa yang Anda pikirkan saat melihat masalah itu? Tindakan spesifik apa yang Anda ambil?</li>
-                            <li>Bagaimana Anda memastikan inisiatif Anda tidak 'tabrakan' dengan tugas divisi lain?</li>
-                            <li>Apa hasil akhirnya? Apa yang terjadi jika Anda diam saja saat itu?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Dalam sebuah *event*, pasti ada momen di mana <strong>ada masalah yang luput dari perhatian panitia lain atau bukan tugas siapa-siapa</strong>. Coba ceritakan momen saat kamu menemukan 'celah' itu. Apa yang kamu lakukan?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa yang kamu pikirkan saat melihat masalah itu? Tindakan spesifik apa yang kamu ambil?</li>
+                                <li>Bagaimana kamu memastikan inisiatif kamu tidak 'tabrakan' dengan tugas divisi lain?</li>
+                                <li>Apa hasil akhirnya? Apa yang terjadi jika kamu diam saja saat itu?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Kamu melihat koordinator kamu sangat sibuk, dan ada tugas kecil (misal: menyiapkan *goodie bag* untuk tamu VIP) yang belum disentuh dan besok harus selesai. Padahal itu <strong>bukan *jobdesk* kamu</strong>. Apa yang akan kamu lakukan tanpa disuruh?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Ownership):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apakah kamu langsung kerjakan, atau tunggu perintah? Mengapa?</li>
+                                <li>Bagaimana kamu memastikan pekerjaan kamu sendiri tetap aman?</li>
+                                <li>Apa risiko terbesar dari inisiatif yang kamu ambil itu?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 4: Problem Solving Baik -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-4">
                 <div class="main-question p-4 font-bold text-lg">
                     4. Problem Solving Baik (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-4', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-4', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Hari-H sebuah *event* seringkali penuh 'dengan hal yang tak terduga'. Ceritakan satu <strong>masalah paling mendesak dan tidak terduga</strong> yang pernah terjadi saat Anda sedang bertugas.
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Bagaimana reaksi Anda di 10 detik pertama? Bagaimana Anda <strong>menganalisis akar masalahnya</strong> dengan cepat?</li>
-                            <li>Opsi solusi apa saja yang ada di kepala Anda saat itu? Solusi apa yang Anda pilih dan *mengapa*?</li>
-                            <li>Bagaimana masalah itu akhirnya teratasi? Apa pelajaran terbesar yang Anda ambil?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Coba ceritakan satu <strong>masalah paling mendesak, tak terduga, dan membuat kamu harus berpikir sangat cepat</strong>, yang pernah kamu alami saat bertugas di lapangan (Hari-H)."
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Bagaimana reaksi kamu di 10 detik pertama? Bagaimana kamu <strong>menganalisis akar masalahnya</strong> dengan cepat?</li>
+                                <li>Opsi solusi apa saja yang ada di kepala kamu saat itu? Solusi apa yang kamu pilih dan *mengapa*?</li>
+                                <li>Bagaimana masalah itu akhirnya teratasi? Apa pelajaran terbesar yang kamu ambil?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "1 jam sebelum acara dimulai, sound system di *venue* tiba-tiba mati total dan teknisi tidak bisa dihubungi. Sebutkan <strong>tiga langkah cepat</strong> yang akan kamu ambil dalam 10 menit pertama untuk mengatasi krisis ini."
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Decision-Making):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Siapa orang pertama yang akan kamu hubungi?</li>
+                                <li>Bagaimana kamu mengelola kepanikan peserta yang sudah mulai datang?</li>
+                                <li>Apa rencana cadangan (Plan B) terburuk kamu?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 5: Service Orientation -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-5">
                 <div class="main-question p-4 font-bold text-lg">
                     5. Service Orientation (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-5', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-5', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Ceritakan pengalaman Anda berhadapan langsung dengan <strong>peserta atau tamu yang sedang komplain, kecewa, atau sangat kebingungan</strong> terhadap *event*.
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Apa hal pertama yang Anda katakan atau lakukan untuk menenangkan situasi?</li>
-                            <li>Sejauh mana Anda bersedia membantu mereka, terutama jika permintaannya merepotkan atau di luar *jobdesk* Anda?</li>
-                            <li>Bagaimana respons mereka setelah Anda bantu? Apa yang Anda rasakan setelah berhasil memberikan pelayanan itu?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Coba ceritakan momen di mana kamu harus berhadapan dengan <strong>peserta atau tamu yang menunjukkan rasa tidak puas, kecewa, atau komplain</strong> terhadap jalannya acara. Bagaimana kamu menanggapi situasi tersebut?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa hal pertama yang kamu katakan atau lakukan untuk menenangkan situasi?</li>
+                                <li>Sejauh mana kamu bersedia membantu mereka, terutama jika permintaannya merepotkan atau di luar *jobdesk* kamu?</li>
+                                <li>Bagaimana respons mereka setelah kamu bantu? Apa yang kamu rasakan setelah berhasil memberikan pelayanan itu?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Ada peserta VIP yang marah karena tempat duduknya tidak sesuai dengan yang dijanjikan, padahal <strong>kamu tahu itu murni kesalahan sistem *ticketing*</strong>. Bagaimana cara kamu merespon dan menyelesaikan situasi agar peserta tetap merasa dihargai?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Empathy):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Bagaimana kamu menunjukkan empati tanpa menyalahkan divisi lain?</li>
+                                <li>Apa solusi yang akan kamu tawarkan (misal: mencari tempat duduk terbaik yang ada, atau menawarkan kompensasi)?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 6: Kolaboratif -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-6">
                 <div class="main-question p-4 font-bold text-lg">
                     6. Kolaboratif (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-6', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-6', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Ceritakan pengalaman Anda harus bekerja sama dengan <strong>rekan yang cara kerjanya sangat berbeda</strong> atau saat terjadi <strong>perbedaan pendapat yang kuat</strong> mengenai sebuah keputusan penting dalam tim.
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Apa posisi Anda saat itu, dan bagaimana cara Anda menyampaikan pandangan Anda <strong>tanpa menyerang</strong> perasaannya?</li>
-                            <li>Bagaimana cara Anda <strong>mendengarkan</strong> pandangan dia agar dia merasa dihargai? Langkah apa yang Anda ambil untuk menemukan <strong>titik tengah</strong>?</li>
-                            <li>Apa hasil akhirnya? Bagaimana hubungan Anda dengan rekan tersebut setelahnya?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Setiap orang punya gaya kerja berbeda. Ceritakan pengalaman kamu <strong>bekerja sama dengan rekan yang memiliki pandangan atau cara kerja yang sangat bertolak belakang</strong> dengan kamu."
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa posisi kamu saat itu, dan bagaimana cara kamu menyampaikan pandangan kamu <strong>tanpa menyerang</strong> perasaannya?</li>
+                                <li>Bagaimana cara kamu <strong>mendengarkan</strong> pandangan dia agar dia merasa dihargai? Langkah apa yang kamu ambil untuk menemukan <strong>titik tengah</strong>?</li>
+                                <li>Apa hasil akhirnya? Bagaimana hubungan kamu dengan rekan tersebut setelahnya?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Kamu merasa ide yang kamu ajukan di rapat ditolak mentah-mentah oleh koordinator. Coba jelaskan bagaimana kamu akan <strong>merespon penolakan tersebut secara profesional</strong> dan tetap menjaga semangat kerja tim?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Attitude):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Apa yang akan kamu lakukan di rapat saat itu (setelah penolakan)?</li>
+                                <li>Bagaimana cara kamu menerima bahwa keputusan akhir bukan ada di tangan kamu?</li>
+                                <li>Jika kamu masih yakin ide kamu lebih baik, bagaimana cara kamu menyampaikannya lagi tanpa terkesan membangkang?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 7: Taat Syariat (Kondisi Ibadah) -->
-            <div class="card rounded-xl overflow-hidden">
+            <div class="card rounded-xl overflow-hidden" id="card-7">
                 <div class="main-question p-4 font-bold text-lg">
                     7. Taat Syariat (Bobot: 5)
                 </div>
+                 <!-- CATATAN WAJIB DIHAPUS DARI SINI -->
+
+                <!-- Toggle Buttons -->
+                <div class="flex p-4 border-b border-gray-700 bg-[#121212]">
+                    <button class="toggle-btn btn-experienced px-4 py-2 text-sm rounded-l-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-7', 'experienced')">
+                        Kandidat Berpengalaman (STAR)
+                    </button>
+                    <button class="toggle-btn btn-non-experienced px-4 py-2 text-sm rounded-r-lg border border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#121212]" 
+                            onclick="toggleQuestion('card-7', 'non-experienced')">
+                        Kandidat Non-Pengalaman
+                    </button>
+                </div>
+                
                 <div class="p-6">
-                    <p class="text-gray-200 font-semibold mb-3">
-                        <span class="text-2xl mr-2 text-[#FFD700]">★</span>
-                        <strong>Pertanyaan Utama (S/T):</strong> Saat Hari-H, jadwal *event* bisa sangat padat. Ceritakan <strong>bagaimana Anda mengatur diri</strong> untuk menyeimbangkan <strong>tanggung jawab kepanitiaan yang mendesak</strong> (misal: menjaga *venue*) dengan <strong>kewajiban ibadah pribadi</strong> (seperti sholat tepat waktu).
-                    </p>
-                    <div class="space-y-2 mt-4">
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Langkah konkret apa yang Anda lakukan (misal: inisiatif *shifting*, lapor koor, persiapan sebelum sibuk)?</li>
-                            <li>Bagaimana Anda memastikan tugas Anda tetap aman saat Anda beribadah?</li>
-                            <li>Apakah akhirnya kedua hal tersebut (tugas dan ibadah) dapat berjalan dengan baik?</li>
-                        </ul>
-                        <p class="probing-title p-2 pl-4 text-sm font-medium">KONFIRMASI KOMITMEN (Non-STAR):</p>
-                        <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
-                            <li>Seluruh panitia Amazing Quran diwajibkan mengikuti standar adab dan *dress code* syar'i (pakaian, tidak pacaran, batasan pergaulan). Apakah Anda bersedia berkomitmen penuh untuk ini?</li>
-                        </ul>
+                    <!-- Questions for Experienced Candidates (STAR) -->
+                    <div class="experienced-q">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-[#FFD700]">★</span>
+                            <strong>Pertanyaan Utama (S/T - STAR):</strong> "Jadwal *event* seringkali sangat padat, bahkan bisa mengganggu ibadah wajib. Ceritakan bagaimana <strong>strategi kamu mengatur tugas *event* yang mendesak dengan kewajiban sholat tepat waktu</strong>."
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Action & Result):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Langkah konkret apa yang kamu lakukan (misal: inisiatif *shifting*, lapor koor, persiapan sebelum sibuk)?</li>
+                                <li>Bagaimana kamu memastikan tugas kamu tetap aman saat kamu beribadah?</li>
+                                <li>Apakah akhirnya kedua hal tersebut (tugas dan ibadah) dapat berjalan dengan baik?</li>
+                            </ul>
+                        </div>
                     </div>
+
+                    <!-- Questions for Non-Experienced Candidates (Situasional/Values) -->
+                    <div class="non-experienced-q hidden">
+                        <p class="text-gray-200 font-semibold mb-3">
+                            <span class="text-2xl mr-2 text-red-500">★</span>
+                            <strong>Pertanyaan Utama (Situasional):</strong> "Waktu sholat Ashar sudah masuk, namun kamu sedang bertugas di pintu masuk *venue* yang sangat ramai dan tidak ada rekan yang bisa menggantikan kamu segera. Apa yang kamu prioritaskan, dan <strong>bagaimana kamu mengkomunikasikan situasi ini</strong>?"
+                        </p>
+                        <div class="space-y-2 mt-4">
+                            <p class="probing-title p-2 pl-4 text-sm font-medium">PERTANYAAN PROBING (Values & Priority):</p>
+                            <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                                <li>Kepada siapa kamu akan melapor?</li>
+                                <li>Seberapa jauh kamu akan menunda sholat?</li>
+                                <li>Apa upaya maksimal kamu agar tetap bisa sholat di awal waktu?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p class="probing-title p-2 pl-4 text-sm font-medium mt-4">KONFIRMASI KOMITMEN (Non-STAR):</p>
+                    <ul class="list-disc pl-8 text-gray-400 space-y-1 text-sm">
+                        <li>Seluruh panitia Amazing Quran diwajibkan mengikuti standar adab dan *dress code* syar'i (pakaian, tidak pacaran, batasan pergaulan). Apakah kamu bersedia berkomitmen penuh untuk ini?</li>
+                    </ul>
                 </div>
             </div>
 
@@ -214,3 +571,4 @@
     </div>
 
 </body>
+</html>
