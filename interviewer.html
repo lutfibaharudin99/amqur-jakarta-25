@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Interviewer Volunteer Amazing Quran Jakarta (Dark Mode)</title>
+    <style>
+      /* Definisi Warna */
+      :root {
+        --color-background: #121212; /* Hampir hitam */
+        --color-surface: #1e1e1e; /* Sedikit lebih terang untuk elemen */
+        --color-text-primary: #ffffff; /* Teks utama putih */
+        --color-accent-gold: #ffd700; /* Emas (Gold) */
+        --color-hover: #333333;
+      }
+
+      /* Styling Body Keseluruhan */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: var(--color-background);
+        color: var(--color-text-primary);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Container untuk Konten */
+      .container {
+        max-width: 900px;
+        width: 100%;
+        background-color: var(--color-surface);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Bayangan gelap */
+        border: 1px solid #3a3a3a;
+      }
+
+      /* Judul */
+      h1 {
+        color: var(--color-accent-gold);
+        text-align: center;
+        margin-bottom: 25px;
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Efek cahaya emas */
+      }
+
+      /* Tabel */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      /* Header Tabel */
+      th {
+        padding: 15px;
+        text-align: left;
+        background-color: var(--color-accent-gold);
+        color: var(--color-surface); /* Teks gelap di header emas */
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+      }
+
+      /* Sel Data */
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #3a3a3a; /* Garis pemisah abu-abu gelap */
+      }
+
+      /* Efek Hover dan Baris Selang-seling */
+      tbody tr:nth-child(even) {
+        background-color: #252525; /* Lebih gelap untuk baris genap */
+      }
+
+      tbody tr:hover {
+        background-color: var(--color-hover); /* Efek hover yang halus */
+        transition: background-color 0.3s;
+      }
+
+      /* Spesifik untuk teks di baris data */
+      td {
+        color: var(--color-text-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Data Interviewer Volunteer Amazing Quran Jakarta</h1>
+      <table id="interviewerTable">
+        <thead>
+          <tr>
+            <th>Nama Interviewer</th>
+            <th>Jenis Kelamin</th>
+            <th>Jenis Kendaraan</th>
+          </tr>
+        </thead>
+        <!-- Baris data akan dimasukkan di sini oleh JavaScript -->
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      // Data JavaScript yang Anda berikan (ditambah beberapa contoh)
+      const dataInterviewer = [
+        // Pastikan format objeknya benar (dengan koma pemisah antar properti)
+        {
+          namaInterviewer: "Ustadz Agil",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadz Syahid",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadz Fajar",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadzah Rida",
+          jenisKelamin: "Perempuan",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadzah Luthfiah",
+          jenisKelamin: "Perempuan",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadzah ainun",
+          jenisKelamin: "Perempuan",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadzah aida",
+          jenisKelamin: "Perempuan",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Ustadzah nadia",
+          jenisKelamin: "Perempuan",
+          kendaraan: "CQC",
+        },
+        {
+          namaInterviewer: "Abdulloh",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Driver",
+        },
+        {
+          namaInterviewer: "Irfan",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Driver",
+        },
+        {
+          namaInterviewer: "Lutfi",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Ali",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Duta",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Ika",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Ratna",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Mira",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Tika",
+          jenisKelamin: "perempuan",
+          kendaraan: "Mobil A",
+        },
+        {
+          namaInterviewer: "Aul",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Linda",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Eriza",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Ifti",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Alfi",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Ara",
+          jenisKelamin: "Perempuan",
+          kendaraan: "Mobil B",
+        },
+        {
+          namaInterviewer: "Rizki Permana",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Motor",
+        },
+        {
+          namaInterviewer: "Maher",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Motor",
+        },
+        {
+          namaInterviewer: "Izul",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Motor",
+        },
+        {
+          namaInterviewer: "Fadhli",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Umum",
+        },
+        {
+          namaInterviewer: "Fatih",
+          jenisKelamin: "Laki-laki",
+          kendaraan: "Umum",
+        },
+      ];
+
+      // Fungsi untuk membuat dan menampilkan tabel
+      function tampilkanData() {
+        const tabelBody = document.querySelector("#interviewerTable tbody");
+
+        // Menggunakan fragment untuk performa lebih baik saat memasukkan banyak baris
+        const fragment = document.createDocumentFragment();
+
+        dataInterviewer.forEach((interviewer) => {
+          const row = document.createElement("tr"); // Buat elemen <tr>
+
+          // Baris Nama Interviewer
+          let cellNama = document.createElement("td");
+          cellNama.textContent = interviewer.namaInterviewer;
+          row.appendChild(cellNama);
+
+          // Baris Jenis Kelamin
+          let cellKelamin = document.createElement("td");
+          cellKelamin.textContent = interviewer.jenisKelamin;
+          row.appendChild(cellKelamin);
+
+          // Baris Jenis Kendaraan
+          let cellKendaraan = document.createElement("td");
+          cellKendaraan.textContent = interviewer.kendaraan;
+          row.appendChild(cellKendaraan);
+
+          fragment.appendChild(row); // Tambahkan baris ke fragment
+        });
+
+        tabelBody.appendChild(fragment); // Masukkan semua baris sekaligus ke DOM
+      }
+
+      // Panggil fungsi setelah halaman dimuat
+      document.addEventListener("DOMContentLoaded", tampilkanData);
+    </script>
+  </body>
+</html>
