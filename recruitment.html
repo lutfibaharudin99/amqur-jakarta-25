@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekrutmen Volunteer Amazing Quran</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Font dan Warna Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // WARNA BARU: Emas (Amber/Gold)
+                        'amqur-primary': '#F59E0B', // Amber 500 - Untuk tombol dan garis aksen
+                        'amqur-dark': '#D97706', // Amber 700 - Untuk judul yang lebih gelap
+                        'amqur-light': '#FEF3C7', // Amber 100 - Untuk highlight background
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar untuk sisi kiri (Hanya terlihat di desktop) */
+        .job-list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .job-list-container::-webkit-scrollbar-thumb {
+            /* Menggunakan warna aksen emas yang lebih terang */
+            background-color: '#FBBF24'; 
+            border-radius: 4px;
+        }
+        .job-list-container::-webkit-scrollbar-track {
+            background-color: #1f2937; /* Dark track */
+        }
+        /* Mengatur warna teks default untuk list item yang non-aktif agar tetap terlihat */
+        .job-item {
+             color: #d1d5db; /* gray-300 */
+        }
+        /* Gaya khusus untuk memastikan penanda timeline tepat di garis tengah pada desktop */
+        .timeline-item-circle {
+            /* Untuk mobile, letakkan di kiri */
+            left: 0;
+            transform: translateX(0) translateY(-50%);
+        }
+        @media (min-width: 768px) {
+            .timeline-item-circle {
+                /* Untuk desktop, letakkan di tengah garis vertikal */
+                left: 50%;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen font-sans p-4 md:p-8 text-gray-200">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-amqur-primary mb-2">Pendaftaran Volunteer Amazing Quran</h1>
+            <p class="text-xl text-gray-400">Jadilah bagian dari tim kami untuk menyukseskan acara!</p>
+        </header>
+        <!-- Gambar -->
+        <img src="Wide Amqur.png" alt="">
+        <br>
+        <!-- Benefit Section -->
+        <div class="mb-8 p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+            <h2 class="text-2xl font-bold text-center text-amqur-primary mb-5">Benefit Eksklusif Volunteer</h2>
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+                
+                <!-- Benefit 1: Fee Event -->
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition duration-200 border border-gray-700">
+                    <!-- Icon: Wallet -->
+                    <svg class="w-8 h-8 text-amqur-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <p class="text-sm text-center font-medium text-gray-100">Kompensasi (Fee) Acara</p>
+                </div>
+
+                <!-- Benefit 2: Sertifikat -->
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition duration-200 border border-gray-700">
+                    <!-- Icon: Badge Check (Sertifikat Resmi) -->
+                    <svg class="w-8 h-8 text-amqur-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c-1.478 0-2.946.33-4.265.986a.825.825 0 00-.791.139l-1.397 1.397a.825.825 0 00-.139.791A11.955 11.955 0 012.944 12c0 1.478.33 2.946.986 4.265a.825.825 0 00.139.791l1.397 1.397a.825.825 0 00.791.139A11.955 11.955 0 0112 21.056c1.478 0 2.946-.33 4.265-.986a.825.825 0 00.791-.139l1.397-1.397a.825.825 0 00.139-.791A11.955 11.955 0 0121.056 12c0-1.478-.33-2.946-.986-4.265z"></path></svg>
+                    <p class="text-sm text-center font-medium text-gray-100">Sertifikat Pengabdian Resmi</p>
+                </div>
+
+                <!-- Benefit 3: Tiket Spesial -->
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition duration-200 border border-gray-700">
+                    <!-- Icon: Ticket -->
+                    <svg class="w-8 h-8 text-amqur-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m-2 4h4m-4 4h4M6 16v-1m-2-4h4m-4-4h4m10 4v1a3 3 0 01-3 3h-3a3 3 0 01-3-3v-1H6a3 3 0 00-3 3v2a3 3 0 003 3h12a3 3 0 003-3v-2a3 3 0 00-3-3h-1m-4-4V5a3 3 0 00-3-3H9a3 3 0 00-3 3v2h8z"></path></svg>
+                    <p class="text-sm text-center font-medium text-gray-100">Akses Tiket Spesial Kerabat</p>
+                </div>
+
+                <!-- Benefit 4: Relasi -->
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition duration-200 border border-gray-700">
+                    <!-- Icon: User Group (Jaringan/Relasi) -->
+                    <svg class="w-8 h-8 text-amqur-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 18h1a2 2 0 002-2v-3a2 2 0 00-2-2h-3m-6 0H5a2 2 0 00-2 2v3a2 2 0 002 2h3m8-10a3 3 0 10-6 0 3 3 0 006 0zM12 17a6 6 0 00-6 6h12a6 6 0 00-6-6z"></path></svg>
+                    <p class="text-sm text-center font-medium text-gray-100">Jaringan dan Relasi Profesional</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recruitment Timeline Section (BARU) -->
+        <div class="mb-8 p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+            <h2 class="text-2xl font-bold text-center text-amqur-primary mb-8">Timeline Recruitment</h2>
+            <div id="timeline-container" class="relative max-w-4xl mx-auto">
+                <!-- Vertical Timeline Line (Central for Desktop, Left for Mobile) -->
+                <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gray-700 z-0"></div>
+
+                <!-- Item 1: Pendaftaran -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="flex-grow md:w-1/2 md:pr-12 text-left md:text-right order-2 md:order-1 ml-10 md:ml-0">
+                        <h3 class="text-lg font-bold text-gray-100">1. Pendaftaran Volunteer</h3>
+                        <p class="text-sm text-gray-400">27 s/d 31 Oktober 2025 pukul 11:00 WIB</p>
+                    </div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 md:pl-12 order-3"></div>
+                </div>
+
+                <!-- Item 2: Meet and Greet (Swapped order for desktop) -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 order-1"></div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h-4a2 2 0 01-2-2v-2h-3a2 2 0 01-2-2v-3a2 2 0 012-2h12a2 2 0 012 2v3a2 2 0 01-2 2h-3v2a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <div class="flex-grow md:w-1/2 md:pl-12 text-left order-3 ml-10 md:ml-0">
+                        <h3 class="text-lg font-bold text-gray-100">2. Meet and Greet Kandidat Volunteer</h3>
+                        <p class="text-sm text-gray-400">1 November 2025 pukul 20:00 WIB</p>
+                    </div>
+                </div>
+                
+                <!-- Item 3: Seleksi Lanjutan -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="flex-grow md:w-1/2 md:pr-12 text-left md:text-right order-2 md:order-1 ml-10 md:ml-0">
+                        <a href="challenge.html"><h3 class="text-lg font-bold text-gray-100">3. Seleksi Lanjutan (Challenge)</h3></a>
+                        <p class="text-sm text-grey font-medium">2 s/d 5 November 2025</p>
+                    </div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c-1.478 0-2.946.33-4.265.986a.825.825 0 00-.791.139l-1.397 1.397a.825.825 0 00-.139.791A11.955 11.955 0 012.944 12c0 1.478.33 2.946.986 4.265a.825.825 0 00.139.791l1.397 1.397a.825.825 0 00.791.139A11.955 11.955 0 0112 21.056c1.478 0 2.946-.33 4.265-.986a.825.825 0 00.791-.139l1.397-1.397a.825.825 0 00.139-.791A11.955 11.955 0 0121.056 12c0-1.478-.33-2.946-.986-4.265z"></path></svg>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 md:pl-12 order-3"></div>
+                </div>
+                
+                <!-- Item 4: Proses Interview (Swapped order for desktop) -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 order-1"></div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4v-4z"></path></svg>
+                    </div>
+                    <div class="flex-grow md:w-1/2 md:pl-12 text-left order-3 ml-10 md:ml-0">
+                        <h3 class="text-lg font-bold text-gray-100">4. Proses Interview</h3>
+                        <p class="text-sm text-amqur-primary font-medium"><strong>Surabaya : </strong>22 November 2025 secara online</p>
+                        <p class="text-sm text-amqur-primary font-medium"><strong>Jakarta : </strong>29 November 2025 secara offline di <a href="https://bitree.li/map-cqc"><p class="text-white"><strong>Cinta Quran Center Bintaro</strong></p></a></p>
+                    </div>
+                </div>
+
+                <!-- Item 5: Pengumuman -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="flex-grow md:w-1/2 md:pr-12 text-left md:text-right order-2 md:order-1 ml-10 md:ml-0">
+                        <h3 class="text-lg font-bold text-gray-100">5. Pengumuman Hasil Interview</h3>
+                        <p class="text-sm text-amqur-primary font-medium">4 Desember 2025</p>
+                    </div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17a4 4 0 014-4 4 4 0 014 4m-3 0h-2"></path></svg>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 md:pl-12 order-3"></div>
+                </div>
+                
+                <!-- Item 6: Briefing (Swapped order for desktop) -->
+                <div class="timeline-item flex w-full my-8 relative">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 order-1"></div>
+                    <!-- Circle/Icon -->
+                    <div class="w-10 h-10 rounded-full bg-amqur-primary border-4 border-gray-800 flex items-center justify-center text-white absolute top-0 z-10 timeline-item-circle">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="flex-grow md:w-1/2 md:pl-12 text-left order-3 ml-10 md:ml-0">
+                        <h3 class="text-lg font-bold text-gray-100">6. Briefing dengan Koordinator Divisi</h3>
+                        <p class="text-sm text-amqur-primary font-medium">6 Desember 2025</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- End Recruitment Timeline Section -->
+
+        <!-- Main Content Grid -->
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <!-- Kiri: Daftar Posisi (List/Dropdown) -->
+            <div class="lg:w-1/3 bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                <h2 class="text-xl font-bold p-5 bg-amqur-dark text-white sticky top-0 shadow-md">Daftar Posisi Tersedia (11 Divisi)</h2>
+                
+                <!-- MOBILE DROPDOWN (Hanya tampil di mobile/tablet) -->
+                <div class="p-4 lg:hidden">
+                    <select id="job-dropdown" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:ring-amqur-primary focus:border-amqur-primary">
+                        <!-- Options akan di-inject oleh JS -->
+                    </select>
+                </div>
+
+                <!-- DESKTOP LIST (Hanya tampil di desktop) -->
+                <div id="job-list" class="job-list-container divide-y divide-gray-700 lg:h-[70vh] overflow-y-auto hidden lg:block">
+                    <!-- Job items will be injected here by JavaScript -->
+                    <div class="p-4 text-center text-gray-400">Memuat daftar posisi...</div>
+                </div>
+            </div>
+
+            <!-- Kanan: Detail Posisi (Content) -->
+            <div class="lg:w-2/3 bg-gray-800 rounded-xl shadow-2xl border border-gray-700 p-6 md:p-8">
+                <div id="job-detail">
+                    <!-- Detail content will be injected here by JavaScript -->
+                    <div class="flex flex-col items-center justify-center h-full text-center py-20 lg:py-40">
+                        <!-- Ikon diperbarui dengan warna gold -->
+                        <svg class="w-16 h-16 text-amqur-primary mb-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        <h3 class="text-2xl font-bold text-gray-200 mb-2">Pilih Posisi untuk Melihat Detail</h3>
+                        <p class="text-gray-400">Klik salah satu posisi di samping untuk membaca deskripsi pekerjaan dan kualifikasi yang dibutuhkan.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // URL Pendaftaran Google Form yang Disediakan Pengguna
+        const REGISTRATION_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSftF1fxrLu8K-1Jc_8OtLNV6SP35HPY3NMGBk0UM9Nzrl_NNQ/viewform?usp=dialog";
+
+        const jobData = [
+            {
+                id: "runner-acara",
+                title: "Runner Acara",
+                description: [
+                    "Membantu mendistribusikan perlengkapan atau pesan penting dari satu divisi ke divisi lain (misalnya, dari Produksi ke Panggung atau Konsumsi).",
+                    "Siap sedia untuk tugas-tugas dadakan (misalnya, membeli kebutuhan mendesak atau menjemput barang).",
+                    "Memastikan kelancaran alur barang dan informasi di seluruh area acara."
+                ],
+                qualifications: [
+                    "Memiliki fisik yang prima dan sanggup bergerak cepat (mobile) di area acara dalam jangka waktu lama.",
+                    "Mampu berkomunikasi dengan jelas, singkat, dan efektif.",
+                    "Sigap, proaktif, dan inisiatif tinggi dalam mencari tahu jika ada yang membutuhkan bantuan."
+                ],
+                cta: "Daftar Runner Acara"
+            },
+            {
+                id: "booth",
+                title: "Booth",
+                description: [
+                    "Menyambut pengunjung di booth dengan ramah dan informatif.",
+                    "Memberikan informasi yang akurat mengenai Amazing Quran, program, atau merchandise yang tersedia.",
+                    "Membantu transaksi penjualan (merchandise) atau pencatatan donasi (jika ada).",
+                    "Memastikan booth selalu terlihat rapi, bersih, dan stock terjaga."
+                ],
+                qualifications: [
+                    "Memiliki kemampuan customer service yang baik (ramah, senyum, dan sabar).",
+                    "Familiar dengan Amazing Quran atau memiliki kemauan tinggi untuk belajar tentang program/produk yang dijual/dipamerkan.",
+                    "Teliti dan jujur (terutama jika menangani transaksi atau pencatatan donasi)."
+                ],
+                cta: "Daftar Staf Booth"
+            },
+            {
+                id: "kids-corner",
+                title: "Kids Corner",
+                description: [
+                    "Mengawasi anak-anak yang ditinggal oleh orang tua/wali mereka.",
+                    "Mempersiapkan dan memandu kegiatan/permainan untuk anak-anak (misalnya, mewarnai, storytelling Qur'an).",
+                    "Memastikan keamanan dan kebersihan area Kids Corner.",
+                    "Berinteraksi positif dan sabar dengan anak-anak."
+                ],
+                qualifications: [
+                    "Menyukai anak-anak dan memiliki kesabaran tinggi dalam berinteraksi.",
+                    "Kreatif dalam memandu permainan atau kegiatan sederhana.",
+                    "Mampu menjaga suasana ceria, namun tetap tegas dalam menjaga keamanan dan ketertiban anak-anak."
+                ],
+                cta: "Daftar Kids Corner"
+            },
+            {
+                id: "konsumsi",
+                title: "Konsumsi",
+                description: [
+                    "Membantu menerima, menghitung, dan memastikan kelengkapan konsumsi yang datang.",
+                    "Mendistribusikan konsumsi tepat waktu sesuai jadwal dan alokasi.",
+                    "Mengelola logistik air minum dan memastikan persediaannya mencukupi.",
+                    "Menjaga kebersihan area distribusi konsumsi."
+                ],
+                qualifications: [
+                    "Teliti dalam menghitung jumlah pack makanan dan mengalokasikan ke berbagai divisi.",
+                    "Memiliki sense of urgency untuk memastikan distribusi konsumsi tepat waktu.",
+                    "Dapat bekerja cepat dalam kondisi high-pressure (saat waktu makan tiba) dan memiliki hygiene yang baik."
+                ],
+                cta: "Daftar Divisi Konsumsi"
+            },
+            {
+                id: "lo",
+                title: "LO (Liaison Officer)",
+                description: [
+                    "Mendampingi talent atau tamu penting sejak kedatangan hingga kepulangan.",
+                    "Memastikan seluruh kebutuhan talent terpenuhi sesuai perjanjian.",
+                    "Mengkomunikasikan jadwal dan kebutuhan talent kepada divisi terkait.",
+                    "Menjadi problem solver pertama jika terjadi kendala pada talent atau tamu penting."
+                ],
+                qualifications: [
+                    "Memiliki kemampuan interpersonal dan problem-solving yang luar biasa.",
+                    "Cepat tanggap, cekatan, dan mampu menjaga profesionalitas saat berhadapan dengan tokoh/figur publik.",
+                    "Memiliki kemampuan berkomunikasi yang persuasif dan sopan."
+                ],
+                cta: "Daftar Liaison Officer"
+            },
+            {
+                id: "media-publikasi",
+                title: "Media Publikasi (Fotografer & Videografer)",
+                description: [
+                    "Fotografer: Mengambil gambar (still photo) momen-momen kunci dan suasana umum acara dengan kualitas tinggi.",
+                    "Videografer: Merekam (footage) jalannya acara dengan stabil dan sesuai arahan storyline dokumentasi.",
+                    "Memastikan seluruh proses dokumentasi tidak mengganggu jalannya acara utama.",
+                    "Melakukan backup dan menyerahkan seluruh raw file kepada Koordinator Media Publikasi/Tim Internal segera setelah acara selesai."
+                ],
+                qualifications: [
+                    "Fotografer: Memiliki kamera DSLR/Mirrorless pribadi dan menguasai teknik fotografi event.",
+                    "Videografer: Memiliki perlengkapan rekam video pribadi dan menguasai teknik pengambilan footage yang stabil dan sinematik.",
+                    "Mampu bekerja di bawah tekanan jadwal dan memahami brief visual acara dengan cepat.",
+                    "Diutamakan berpengalaman dalam dokumentasi acara keagamaan atau seminar."
+                ],
+                cta: "Daftar Media Publikasi"
+            },
+            {
+                id: "medis",
+                title: "Medis",
+                description: [
+                    "Menyiapkan dan menjaga kelengkapan kotak P3K di area Medis.",
+                    "Siap siaga di area yang telah ditentukan selama acara berlangsung.",
+                    "Memberikan pertolongan pertama pada volunteer, panitia, atau peserta yang membutuhkan.",
+                    "Melakukan pencatatan terhadap penanganan medis yang diberikan."
+                ],
+                qualifications: [
+                    "Wajib memiliki latar belakang pendidikan/pelatihan di bidang kesehatan (P3K, Perawat, Bidan, Mahasiswa Kesehatan, dll).",
+                    "Tenang dan cepat dalam mengambil tindakan pertolongan pertama pada kondisi darurat.",
+                    "Memiliki empati dan mampu memberikan rasa aman kepada yang membutuhkan bantuan."
+                ],
+                cta: "Daftar Tim Medis"
+            },
+            {
+                id: "multicam",
+                title: "Multicam",
+                description: [
+                    "Mengoperasikan kamera video (sesuai posisi dan instruksi) untuk merekam jalannya acara.",
+                    "Memastikan angle dan kualitas gambar yang direkam sesuai standar tim Multicam.",
+                    "Menjaga dan melaporkan kondisi perlengkapan kamera yang digunakan.",
+                    "Bekerja sama dengan tim Produksi dan Dokumentasi untuk kelancaran live feed atau perekaman."
+                ],
+                qualifications: [
+                    "Menguasai dasar-dasar operasional kamera video dan teknis live production (jika ada).",
+                    "Mampu bekerja dalam tim produksi dan mengikuti arahan Switcher/Director dengan disiplin.",
+                    "Memiliki daya tahan tinggi dan fokus dalam merekam selama durasi acara yang panjang."
+                ],
+                cta: "Daftar Multicam"
+            },
+            {
+                id: "production",
+                title: "Production",
+                description: [
+                    "Membantu loading dan unloading perlengkapan acara (dekorasi, sound system, lampu, kursi).",
+                    "Mendukung penataan panggung dan area di sekitarnya.",
+                    "Siap siaga di area backstage untuk membantu pengisi acara atau teknisi panggung.",
+                    "Memastikan perlengkapan kembali rapi setelah acara selesai (clearing down)."
+                ],
+                qualifications: [
+                    "Memiliki stamina fisik yang kuat (karena melibatkan logistik berat).",
+                    "Menguasai dasar-dasar teknis panggung (rigging, tata letak) atau memiliki kemauan belajar yang tinggi.",
+                    "Disiplin dan bertanggung jawab terhadap penataan serta inventaris peralatan."
+                ],
+                cta: "Daftar Staf Produksi"
+            },
+            {
+                id: "reg-scanner",
+                title: "Registrasi (Operator Scanner)",
+                description: [
+                    "Mengoperasikan alat scanner (QR/Barcode) untuk memindai tiket atau ID peserta saat masuk.",
+                    "Memvalidasi kehadiran peserta secara cepat dan akurat."
+                ],
+                qualifications: [
+                    "Familiar dengan penggunaan gadget/aplikasi scanner.",
+                    "Memiliki ketelitian tinggi."
+                ],
+                cta: "Daftar Operator Scanner"
+            },
+            {
+                id: "reg-gifter",
+                title: "Registrasi (Registrasi Gifter)",
+                description: [
+                    "Mengelola dan mendistribusikan gift (hadiah/suvenir/seminar kit) kepada peserta.",
+                    "Mencocokkan data peserta yang berhak menerima gift dan mendistribusikannya dengan tertib."
+                ],
+                qualifications: [
+                    "Detail, teliti, dan sabar dalam melayani peserta.",
+                    "Mampu menjaga alur distribusi merchandise agar tidak terjadi kericuhan."
+                ],
+                cta: "Daftar Registrasi Gifter"
+            },
+            {
+                id: "reg-runner",
+                title: "Registrasi (Runner Registrasi)",
+                description: [
+                    "Membantu kelancaran alur di area registrasi dan mengelola kebutuhan logistik operasional meja.",
+                    "Mengarahkan peserta ke jalur pendaftaran yang benar dan membantu mengurai antrian.",
+                    "Menyediakan dan memastikan ketersediaan kebutuhan logistik di meja registrasi, seperti snack panitia, merchandise, atau training kit.",
+                    "Mendukung kebutuhan ringan lainnya dari tim Registrasi."
+                ],
+                qualifications: [
+                    "Cekatan dan tanggap dalam memenuhi permintaan logistik mendadak di area registrasi."
+                ],
+                cta: "Daftar Runner Registrasi"
+            },
+            {
+                id: "usher",
+                title: "Usher",
+                description: [
+                    "Menyambut peserta di area kedatangan/pintu masuk.",
+                    "Mengarahkan peserta ke lokasi Registrasi.",
+                    "Setelah registrasi, mengarahkan peserta ke tempat duduk yang sesuai di dalam venue.",
+                    "Menjaga ketenangan dan ketertiban selama acara berlangsung.",
+                    "Memberikan bantuan informasi dasar terkait lokasi toilet, mushola, atau jalur evakuasi."
+                ],
+                qualifications: [
+                    "Memiliki body language yang ramah dan approachable (mudah didekati).",
+                    "Mampu memberikan arahan (direction) secara jelas dan sopan.",
+                    "Peka terhadap situasi sekitar (misalnya, ada peserta yang bingung).",
+                    "Diutamakan yang memiliki pengalaman sebagai pemandu (ushering) atau frontliner."
+                ],
+                cta: "Daftar Usher"
+            },
+        ];
+
+        const jobListDesktopElement = document.getElementById('job-list');
+        const jobDropdownElement = document.getElementById('job-dropdown');
+        const jobDetailElement = document.getElementById('job-detail');
+
+        let activeJobId = null;
+
+        /**
+         * Fungsi helper untuk mengubah array string menjadi list HTML (UL)
+         * @param {string[]} items - Array of string list items
+         * @returns {string} - HTML <ul> list
+         */
+        function renderList(items) {
+            // Mengubah warna teks list item menjadi abu-abu terang agar kontras dengan background gelap
+            return `
+                <ul class="list-disc ml-5 space-y-2">
+                    ${items.map(item => `<li class="text-gray-300">${item}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+
+        /**
+         * Menampilkan detail pekerjaan yang dipilih
+         * @param {string} jobId - ID dari pekerjaan yang dipilih
+         */
+        function displayJobDetail(jobId) {
+            const job = jobData.find(j => j.id === jobId);
+
+            if (!job) {
+                jobDetailElement.innerHTML = `
+                    <p class="text-red-400 text-center py-20">Detail pekerjaan tidak ditemukan.</p>
+                `;
+                return;
+            }
+            
+            // Render Deskripsi Tugas dalam bentuk list
+            const descriptionListHtml = renderList(job.description);
+
+            // Render Kualifikasi Spesifik dalam bentuk list
+            const qualificationListHtml = renderList(job.qualifications);
+
+
+            jobDetailElement.innerHTML = `
+                <div class="space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-amqur-primary border-b-4 border-amqur-primary pb-2">${job.title}</h2>
+                    
+                    <!-- Deskripsi Tugas -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-100 mb-3 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-amqur-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            Rincian Tugas Utama
+                        </h3>
+                        <div class="bg-gray-700 p-4 rounded-lg border border-gray-600">
+                            ${descriptionListHtml}
+                        </div>
+                    </div>
+
+                    <!-- Kualifikasi Spesifik (Diubah agar sama dengan Rincian Tugas Utama) -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-100 mb-3 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-amqur-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Kualifikasi Spesifik
+                        </h3>
+                        <div class="bg-gray-700 p-4 rounded-lg border border-gray-600">
+                            ${qualificationListHtml}
+                        </div>
+                    </div>
+
+                    <!-- CTA Button - Menggunakan REGISTRATION_LINK yang baru -->
+                    <div class="pt-4 text-center">
+                        <a href="${REGISTRATION_LINK}" target="_blank"
+                           class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-lg font-medium rounded-full shadow-lg text-gray-900 bg-amqur-primary hover:bg-amqur-dark transform transition duration-300 hover:scale-105 active:scale-95">
+                            ${job.cta}
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            // Update active state in Desktop list
+            document.querySelectorAll('.job-item').forEach(el => {
+                el.classList.remove('bg-amqur-light', 'font-semibold', 'text-amqur-dark', 'border-l-4', 'border-amqur-dark');
+                el.classList.add('hover:bg-gray-700', 'text-gray-300', 'border-l-4', 'border-transparent');
+            });
+            const activeElement = document.getElementById(`list-${jobId}`);
+            if (activeElement) {
+                // Style untuk item aktif pada tema gelap
+                activeElement.classList.remove('hover:bg-gray-700', 'text-gray-300', 'border-transparent');
+                activeElement.classList.add('bg-gray-700', 'font-semibold', 'text-amqur-primary', 'border-amqur-primary');
+            }
+
+            // Sync Dropdown selection (Mobile)
+            if (jobDropdownElement) {
+                jobDropdownElement.value = jobId;
+            }
+
+            activeJobId = jobId;
+        }
+
+        /**
+         * Menginisiasi dan menampilkan daftar pekerjaan
+         */
+        function initializeJobList() {
+            jobListDesktopElement.innerHTML = ''; // Bersihkan konten awal (Desktop List)
+            jobDropdownElement.innerHTML = ''; // Bersihkan konten awal (Mobile Dropdown)
+
+            jobData.forEach(job => {
+                // 1. Desktop List Item
+                const listItem = document.createElement('div');
+                listItem.id = `list-${job.id}`;
+                // Mengubah hover dan warna teks non-aktif untuk tema gelap
+                listItem.className = 'job-item cursor-pointer p-4 transition duration-150 ease-in-out border-l-4 border-transparent hover:bg-gray-700 text-gray-300';
+                listItem.innerHTML = `<p class="text-base">${job.title}</p>`;
+                listItem.addEventListener('click', () => displayJobDetail(job.id));
+                jobListDesktopElement.appendChild(listItem);
+
+                // 2. Mobile Dropdown Option
+                const optionItem = document.createElement('option');
+                optionItem.value = job.id;
+                optionItem.textContent = job.title;
+                jobDropdownElement.appendChild(optionItem);
+            });
+            
+            // Tambahkan listener untuk perubahan dropdown
+            jobDropdownElement.addEventListener('change', (event) => {
+                displayJobDetail(event.target.value);
+            });
+
+            // Otomatis tampilkan detail posisi pertama saat load
+            if (jobData.length > 0) {
+                displayJobDetail(jobData[0].id);
+            }
+        }
+
+        // Jalankan inisialisasi setelah DOM siap
+        document.addEventListener('DOMContentLoaded', initializeJobList);
+
+    </script>
+
+</body>
+</html>
